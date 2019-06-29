@@ -11,16 +11,17 @@ admin.initializeApp();
  });
 
  //code for geting documents
- exports.getScreams = functions.https.onRequest((req, res) => {
-    admin.firestore().collection('screams').get()
-    .then(data => {
-        let screams =[];                // we need to store them in something
-        data.forEach(doc => {           //
-            screams.push(doc.data());    // for each document - doc is a reference, data is the funct the returns the data inside the document
-        });
-        return res.json(screams);      //returning the data in the newly initialized array
-    })
-    .catch(err => console.error(err));   
+ exports.setScreams = functions.https.onRequest(( req, res) => {
+     admin.firestore().collection('screams')
+     .get()
+     .then((data) => {
+         let screams = [];                  // we need to store them in something
+         data.forEach((doc) => {
+             screams.push(doc.data());      // for each document - doc is a reference, data is the funct the returns the data inside the document
+         });
+         return res.json(screams);          //returning the data in the newly initialized array
+     })
+     .catch((err) => console.error(err));
  });
 
  //code for creating documents
@@ -31,14 +32,17 @@ admin.initializeApp();
         createdAt: admin.firestore.Timestamp.fromDate(new Date())           //body = body of request, 2body = properties of body
     };
 
-    admin.firestore()
+    admin
+        .firestore()
         .collection('screams')
         .add(newScream)  
-        .then(doc => {                      //takes a json object and adds it to the database
-            res.json({ message: `document ${doc.id} created sucessfully`})      // backticks because we are putting a function in it
+        .then((doc) => {
+            res.json({ message: `document ${doc.id} created sucessfully` });
         })
         .catch(err => {
             res.status(500).json({ error: 'something went wrong'});
             console.err(err);
         });                           
  });
+
+ /Users/test/Desktop/resumeProjects2/social-ape-functions/functions/index.js
