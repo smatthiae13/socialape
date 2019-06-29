@@ -11,17 +11,16 @@ admin.initializeApp();
  });
 
  //code for geting documents
- exports.setScreams = functions.https.onRequest(( req, res) => {
-     admin.firestore().collection('screams')
-     .get()
-     .then((data) => {
-         let screams = [];                  // we need to store them in something
-         data.forEach((doc) => {
-             screams.push(doc.data());      // for each document - doc is a reference, data is the funct the returns the data inside the document
-         });
-         return res.json(screams);          //returning the data in the newly initialized array
-     })
-     .catch((err) => console.error(err));
+ exports.getScreams = functions.https.onRequest((req, res) => {
+    admin.firestore().collection('screams').get()
+    .then((data) => {
+        let screams =[];                // we need to store them in something
+        data.forEach((doc) => {           //
+            screams.push(doc.data());    // for each document - doc is a reference, data is the funct the returns the data inside the document
+        });
+        return res.json(screams);      //returning the data in the newly initialized array
+    })
+    .catch((err) => console.error(err));
  });
 
  //code for creating documents
@@ -44,5 +43,3 @@ admin.initializeApp();
             console.err(err);
         });                           
  });
-
- /Users/test/Desktop/resumeProjects2/social-ape-functions/functions/index.js
